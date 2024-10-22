@@ -8,24 +8,27 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./sql:/docker-entrypoint-initdb.d
+      - ./sql:/docker-entrypoint-initdb.d    
+    env_file:
+      - ./sql/.env
+
   nginx:
-    image: nginx:1.15
+    image: nginx:alpine
     ports:
-      - "80:80"
+      - "8080:8080"
     volumes:
-      - ./src:/var/www/html
+      - ./:/var/www/html
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+
   laravel:
     build:
-      context: .
+      context: ./laravel
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
     volumes:
       - ./src:/var/www/html
-    depends_on:
-      - mysql
-      - nginx
-    links:
-      - mysql
-      - nginx
+
+networks:
+  app-network:
+    driver: bridge
