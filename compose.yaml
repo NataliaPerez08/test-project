@@ -29,6 +29,12 @@ services:
     volumes:
       - ./src:/var/www/html
 
+  # Random HTTP server. With  profiles: ["dev"]
+  random-http-server:
+    image: mendhak/http-https-echo
+    ports:
+      - "8081:80"
+
 networks:
   app-network:
     driver: bridge
