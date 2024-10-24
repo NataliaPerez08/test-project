@@ -13,7 +13,9 @@ services:
       - ./sql/.env
 
   nginx:
-    image: nginx:alpine
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     volumes:
